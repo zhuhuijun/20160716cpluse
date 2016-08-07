@@ -1,18 +1,18 @@
-.SUFFIXES:.c .o
+.SUFFIXES: .c .o
 
 CC=gcc
-SRCS=demo23_test.c
+SRCS=demo22_so.c
 
 OBJS=$(SRCS:.c=.o)
-EXEC=demo
+EXEC=libtest.so
 
 
 start:$(OBJS)
-	$(CC) -L. -ltest -o $(EXEC) $(OBJS)
+	$(CC) -shared -o $(EXEC) $(OBJS)
 	@echo '----------------ok------------'
 
 .c.o:
-	$(CC) -o $@ -c $<
+	$(CC) -Wall -g -fPIC -o $@ -c $<
 
 clean:
 	rm -f $(OBJS)
