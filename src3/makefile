@@ -1,7 +1,7 @@
 .SUFFIXES: .c .o
 
 CC=gcc
-SRCS=demo21_kill.c
+SRCS=demo25_fifo.c
 
 OBJS=$(SRCS:.c=.o)
 EXEC=demo

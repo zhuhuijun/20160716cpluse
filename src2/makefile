@@ -1,4 +1,5 @@
 .SUFFIXES:.c .o
+.SUFFIXES:.c .o
 
 CC=gcc
 SRCS=demo23_test.c

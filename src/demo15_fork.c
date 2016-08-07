@@ -5,7 +5,7 @@ int main(int argc, char const *argv[])
 {
 	pid_t children=fork();
 	if(children==-1){
-		printf("call fork error\n", );
+		printf("call fork error\n");
 		return -1;
 	}
 	if (children==0)
