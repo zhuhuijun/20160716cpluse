@@ -1,14 +1,13 @@
 .SUFFIXES: .c .o
 
 CC=gcc
-SRCS=demo25_fifo.c
+SRCS1=demo29_shmadd.c
+OBJS1=$(SRCS1:.c=.o)
+EXEC1=demo
 
-OBJS=$(SRCS:.c=.o)
-EXEC=demo
 
-
-start:$(OBJS)
-	$(CC) -o $(EXEC) $(OBJS)
+start:$(OBJS1)
+	$(CC) -o $(EXEC1) $(OBJS1)
 	@echo '----------------ok------------'
 
 .c.o:

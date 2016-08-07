@@ -10,8 +10,9 @@ int main(){
 	char buf[100];
 	memset(buf,0,sizeof(buf));
 	int fd=open("fifo1",O_RDONLY);
-	while(len=read(fd,buf,sizeof(buf))>0){
-		printf("%s\n",buf );
+	while((len=read(fd,buf,sizeof(buf)))>0){
+		printf("%s",buf );
+		memset(buf,0,sizeof(buf));
 	}
 	close(fd);
 	return 0;
