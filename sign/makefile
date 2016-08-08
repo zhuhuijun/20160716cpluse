@@ -1,9 +1,9 @@
 .SUFFIXES: .c .o
 
 CC=gcc
-SRCS1=demo30_rw.c
+SRCS1=demo31_pause.c
 OBJS1=$(SRCS1:.c=.o)
-EXEC1=demo30
+EXEC1=demo
 
 
 start:$(OBJS1)
