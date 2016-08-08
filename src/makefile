@@ -8,8 +8,8 @@ EXEC=abc
 
 
 start: $(OBJS)
-     $(CC) -o $(EXEC) $(OBJS)
-     @echo '----------------ok------------'
+	$(CC) -o $(EXEC) $(OBJS)
+	@echo '----------------ok------------'
 
 .c.o:
 	$(CC) -o $@ -c $<
