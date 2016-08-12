@@ -8,6 +8,26 @@
 #include <sys/shm.h>
 #include <syslog.h>
 #include <signal.h>
+int status=0;
+void signalctrl(int sign){
+	switch(sign){
+		case SIGINT:
+		printf("Sigint\n");
+		exit(0);
+		break;
+		case SIGUSR1:
+		status=1;
+		printf("SIGUSER1\n");
+		break;
+	}
+}
+int mysingal(int signo,void (*func)(int)){
+	struct sigaction act,oact;
+	act.sa_handler=func;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags=0;
+	return sigaction(signo,&act,&oact);
+}
 int main(int arg ,char *args[]){
 	pid_t pid=fork();
 	if(pid==-1){
@@ -21,9 +41,11 @@ int main(int arg ,char *args[]){
 		chdir("/");
 		umask(0);
 		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
+		//close(STDOUT_FILENO);
 		close(STDERR_FILENO);
 	}
+	mysingal(SIGINT,signalctrl);
+	mysingal(SIGUSR1,signalctrl);
 	syslog(LOG_INFO,"my daemon is ok");
 	while(1){
 
