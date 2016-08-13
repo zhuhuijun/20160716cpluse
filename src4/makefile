@@ -17,4 +17,4 @@ start:$(OBJS1) $(OBJS2)
 	$(CC) -o $@ -c $<
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS1)

@@ -1,6 +1,6 @@
 #!/bin/sh
 WHOAMI=`whoami`
 PID=`ps -u $WHOAMI | grep demo34d | awk '{print $1}'`
-if (test "$PID" !="") then
+if (test "$PID" != "") then
 	kill -s 2 $PID
 fi
