@@ -58,7 +58,7 @@
  		printf("fork error\n");
  		exit(EXIT_FAILURE);
  	}
- 	if ((sid=setsid()<0)
+ 	if ((sid=setsid())<0)
  	{
  		printf("setsid failed %s\n",strerror(errno) );
  		exit(EXIT_FAILURE);
@@ -73,12 +73,15 @@
  		case SIGINT:
  		listenfifo();
  		break;
+ 		case SIGPIPE:
+ 		break;
  	}
  }
  int main(void)
  {
  	setdaemon();
  	mysingal(SIGINT,catch_singal);
+ 	mysingal(SIGPIPE,catch_singal);
  	while(1){
  		puts("Hello\n");
  		sleep(1);
