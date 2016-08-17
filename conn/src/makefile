@@ -1,9 +1,9 @@
 .SUFFIXES: .c .o
 
 CC=gcc
-SRCS1=demo35_pthread.c
+SRCS1=demo37_join.c
 OBJS1=$(SRCS1:.c=.o)
-EXEC1=demo35
+EXEC1=demo37
 
 start:$(OBJS1)
 	$(CC) -o $(EXEC1) $(OBJS1) -lpthread
