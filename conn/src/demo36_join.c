@@ -77,8 +77,8 @@ void createThread(){
 int main(void)
 {
 	pthread_t thrd,thrd2;
-//static int i1=1;
-//static int i2=2;
+	//static int i1=1;
+	//static int i2=2;
 	int *i1=malloc(sizeof(int));
 	int *i2=malloc(sizeof(int));
 	*i1=1;
