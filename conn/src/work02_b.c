@@ -7,6 +7,7 @@
 int main(int arg,char *args){
 	printf("b begin \n");
 	if(args[1]==NULL){
+		
 		printf("args[1]\n");
 		return EXIT_FAILURE;
 	}
