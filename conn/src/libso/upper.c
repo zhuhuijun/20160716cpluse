@@ -12,3 +12,4 @@ void upper(const char *src,char *desc)
 		}
 	}
 }
+//-fPIC 让gcc编译产生与位置无关的.o文件
