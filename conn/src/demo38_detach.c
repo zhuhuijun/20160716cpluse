@@ -44,25 +44,12 @@
 
  int main(void)
  {
- 	pthread_t thrd,thrd2,thrd3;
- 	int *i1=malloc(sizeof(int));
- 	int *i2=malloc(sizeof(int));
- 	*i1=10;
- 	*i2=5;
- 	if(pthread_create(&thrd,NULL,func2,i1)!=0){//第二个参数 不可分离状态
- 		printf("errno %s\n",strerror(errno) );
- 	}
- 	if(pthread_create(&thrd2,NULL,func2,i2)!=0){
- 		printf("errno %s\n",strerror(errno) );
- 	}
+ 	pthread_t thrd3;
  	if(pthread_create(&thrd3,NULL,func1,NULL)!=0){
  		printf("errno %s\n",strerror(errno) );
  	}
- 	pthread_join(thrd2,NULL);//主线程挂起等待thrd2退出
- 	pthread_join(thrd,NULL);//主线程挂起等待thrd2退出
- 	int *p=NULL;
- 	pthread_join(thrd3,(void **)&p);//接受返回参数
- 	printf("p=%d\n",*p);
+ 	pthread_detach(thrd3);
+ 	sleep(5);
  	printf("main end\n");
  	
  	return EXIT_SUCCESS;
