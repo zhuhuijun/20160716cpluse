@@ -1,9 +1,9 @@
 .SUFFIXES: .c .o
 
 CC=gcc
-SRCS1=demo41_mutex.c
+SRCS1=demo42_mutex.c
 OBJS1=$(SRCS1:.c=.o)
-EXEC1=demo41
+EXEC1=demo42
 
 start:$(OBJS1)
 	$(CC) -o $(EXEC1) $(OBJS1) -lpthread
