@@ -1,12 +1,12 @@
 .SUFFIXES: .c .o
 
 CC=gcc
-SRCS1=demo34_demon.c
-SRCS2=demo32_kill.c
+SRCS1=demo01_socketc.c
+SRCS2=demo01_sockets.c
 OBJS1=$(SRCS1:.c=.o)
 OBJS2=$(SRCS2:.c=.o)
-EXEC1=demo34d
-EXEC2=demo32
+EXEC1=democ
+EXEC2=demos
 
 start:$(OBJS1) $(OBJS2)
 	$(CC) -o $(EXEC1) $(OBJS1)
@@ -14,7 +14,8 @@ start:$(OBJS1) $(OBJS2)
 	@echo '----------------ok------------'
 
 .c.o:
-	$(CC) -o $@ -c $<
+	$(CC) -Wall -g -o $@ -c $<
 
 clean:
 	rm -f $(OBJS1)
+	rm -f $(OBJS2)
