@@ -11,7 +11,6 @@
 void *writefifo(void *arg) //写fifo1文件
 {
 	const char *sfifoname = "fifo1";
-
 	int fd = open(sfifoname, O_WRONLY);
 	if (fd == -1)
 	{
@@ -19,7 +18,6 @@ void *writefifo(void *arg) //写fifo1文件
 		return NULL;
 	}
 	char buf[128];
-
 	while (1)
 	{
 		memset(buf, 0, sizeof(buf));
@@ -29,22 +27,17 @@ void *writefifo(void *arg) //写fifo1文件
 	close(fd);
 	return NULL;
 }
-
-
 void *readfifo(void *arg) //读取fifo2文件
 {
 	const char *sfifoname = "fifo2";
-
 	int fd = open(sfifoname, O_RDONLY);
 	if (fd == -1)
 	{
 		printf("open %s failed, %s\n", sfifoname, strerror(errno));
 		return NULL;
 	}
-
 	int len = 0;
 	char buf[128];
-
 	while (1)
 	{
 		memset(buf, 0, sizeof(buf));
