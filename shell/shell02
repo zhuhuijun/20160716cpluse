@@ -1,0 +1,4 @@
+#! /bin/sh
+read a
+read b
+echo `c $a $b`

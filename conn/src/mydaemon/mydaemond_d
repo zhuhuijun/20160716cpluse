@@ -1,0 +1,14 @@
+#! /bin/sh
+WHOAMI=`whoami`
+PID=`ps -u $WHOAMI | grep mydaemond1 | awk '{printf $1}'`
+if ( test "$1" = "start" ) then
+	if ( test "$PID" = "" ) then
+		mydaemond1
+	fi
+fi
+
+if ( test "$1" = "stop" ) then
+	if ( test "$PID" != "" ) then
+		kill -s 2 $PID
+	fi
+fi

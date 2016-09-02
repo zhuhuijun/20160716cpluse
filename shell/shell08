@@ -1,0 +1,11 @@
+#! /bin/sh
+function func
+{
+	echo "func is begin"
+	a=$1
+	b=$2
+	return `expr $a + $b`
+}
+func 3 9
+var1=$?
+echo $var1

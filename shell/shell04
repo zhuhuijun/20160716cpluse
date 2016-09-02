@@ -1,0 +1,6 @@
+#! /bin/sh
+if [ -f a.c ];then
+	echo "have a.c"
+else
+	echo "have not a.c"
+fi
