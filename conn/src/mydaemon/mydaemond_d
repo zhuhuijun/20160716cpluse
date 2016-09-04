@@ -1,14 +1,35 @@
 #! /bin/sh
 WHOAMI=`whoami`
 PID=`ps -u $WHOAMI | grep mydaemond1 | awk '{printf $1}'`
+if ( test "$1" = "" ) then
+	echo "mydaemon [start] [stop] [status]  [-version]"
+	exit 0
+fi
+if ( test "$1" = "status" ) then
+	if ( test "$PID" = "" ) then
+		echo "no running"
+	else
+		echo "mydaemon rnning"
+	fi
+	exit 0
+fi
+
 if ( test "$1" = "start" ) then
 	if ( test "$PID" = "" ) then
 		mydaemond1
 	fi
+	exit 0
 fi
 
 if ( test "$1" = "stop" ) then
 	if ( test "$PID" != "" ) then
 		kill -s 2 $PID
 	fi
+	exit 0
 fi
+if ( test "$1" = "-version" ) then
+	echo "version 1.0.1"
+	exit 0
+fi
+
+echo "mydaemon [start] [stop] [status]  [-version]"
