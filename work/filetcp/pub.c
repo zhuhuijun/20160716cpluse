@@ -188,7 +188,7 @@ int send_work(const char *hostname,int port,const char *filename)
 			}
 		}
 	}
-	close(fd);
+	fclose(fd);
 	free(buf);
 #ifdef WIN
 	closescoket(st);
