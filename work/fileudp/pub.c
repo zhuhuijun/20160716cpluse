@@ -54,11 +54,13 @@ SOCKET create_recv_socket(int port)
 	SOCKET st=socket(AF_INET,SOCK_DGRAM,0);
 	if(st==0)
 		return 0;
-	struct sockaddr_in addr;
+
+	struct sockaddr_in addr;//定义一个ip的结构
 	memset(&addr,0,sizeof(addr));
-	addr.sin_family=AF_INET；
-	addr.sin_port=htons(port);
-	addr.sin_addr.s_addr=htonl(INADDR_ANY);
+	addr.sin_family=AF_INET;//设置结构类型为Tcp/ip
+	addr.sin_port=htons(port);//设置端口号htons:将short类型从本地字节类型转化为net字节类型
+	addr.sin_addr.s_addr=htonl(INADDR_ANY);//转化为网络类型
+
 	if(bind(st,(struct sockaddr *)&addr,sizeof(addr))==-1)
 	{
 		printf("bind failed %s\n",strerror(errno) );
@@ -108,6 +110,7 @@ int send_work(const char *hostname,int port,const char *filename)
 		int len=0;
 		#else
 		unsigned int len=0;
+		#endif
 		len =sizeof(client_addr);
 		memset(&client_addr,0,sizeof(client_addr));
 		memset(buf,0,BUFSIZE);
@@ -121,7 +124,8 @@ int send_work(const char *hostname,int port,const char *filename)
 					memset(buf,0,BUFSIZE);
 					rc=fread(buf,1,BUFSIZE,fd);
 					if(rc<=0)
-						{break;}else
+						{break;}
+					else
 					{
 						rc=sendto(st_send,buf,rc,0,(struct sockaddr *)&addr,
 							sizeof(addr));//将读到的文件数据发送到server
@@ -146,7 +150,7 @@ int send_work(const char *hostname,int port,const char *filename)
 	WSACleanup();
 #else
 	close(st_send);
-	close(st_recv)
+	close(st_recv);
 #endif
 	return 1;
 }
@@ -160,11 +164,12 @@ int recv_work (int port)
 	if(st_recv==0) return 0;
 	char *buf=malloc(BUFSIZE);
 	FILE *fd=NULL;
-	#ifdef 	WIN
+
+		#ifdef WIN
 	int len=0;
-	#else
-	unsigned len=0;
-	#endif
+		#else
+	unsigned int len=0;
+		#endif
 
 	struct sockaddr_in client_addr;
 	len=sizeof(client_addr);
@@ -186,8 +191,9 @@ int recv_work (int port)
 			client_addr.sin_port=htons(port+1);
 			memset(buf,0,sizeof(BUFSIZE));
 			strcpy(buf,"OK");
+
 			rc=sendto(st_send,buf,strlen(buf),0,
-				(struct sockaddr *)&client_addr,&len);
+				(struct sockaddr *)&client_addr,sizeof(client_addr));
 			if(rc<=0)
 			{
 				printf("send failed %s\n",strerror(errno) );
