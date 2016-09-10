@@ -1,0 +1,9 @@
+#! /bin/sh
+DATE=`date`
+echo "today is :"$DATE
+a=5
+b=6
+var1=`expr $a + $b`
+var2=`b $a $b`
+echo $var1
+echo $var2
