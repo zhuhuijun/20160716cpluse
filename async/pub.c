@@ -11,9 +11,27 @@
 #endif
 
 #include <stdio.h>
+#include <fcntl.h>
 #include "pub.h"
 
 #define BUFSIZE 262144 //256K
+//设置异步
+void setnonblocking(int st)
+{
+	int opts=fcntl(st,F_GETFL);
+	if(opts<0)
+	{
+		printf("fcntl failed%s\n", strerror(errno));
+		return;
+	}
+	opts=opts|O_NONBLOCK;
+	if(fcntl(st,F_SETFL,opts)<0)
+	{
+		printf("fcntl failed%s\n", strerror(errno));
+	}
+	return;
+}
+
 void getfilename(const char *filename,char *name)
 {
 	int len=strlen(filename);
@@ -94,20 +112,28 @@ SOCKET socket_accept(SOCKET listen_st)
 	#else
 	unsigned int len=1;
 	#endif
-
-	len=sizeof(client_addr);
-	memset(&client_addr,0,sizeof(client_addr));
-	SOCKET client_st=accept(listen_st,(struct sockaddr *)&client_addr,
-		&len);
-	if(client_st==-1)
+	while(1)
 	{
-		printf("accept failed %s\n",strerror(errno) );
-		return 0;
-	}else
-	{
-		printf("accept by %s\n",inet_ntoa(client_addr.sin_addr) );
-		return client_st;
+		len=sizeof(client_addr);
+		memset(&client_addr,0,sizeof(client_addr));
+		SOCKET client_st=accept(listen_st,(struct sockaddr *)&client_addr,
+			&len);
+		if(client_st==-1)
+		{
+			if(errno==EWOULDBLOCK)
+			{
+				sleep(1);
+				continue;
+			}
+			printf("accept failed %s\n",strerror(errno) );
+			return 0;
+		}else
+		{
+			printf("accept by %s\n",inet_ntoa(client_addr.sin_addr) );
+			return client_st;
+		}
 	}
+
 }
 SOCKET socket_connect(const char *hostname,int port)
 {
@@ -148,7 +174,7 @@ int send_work(const char *hostname,int port,const char *filename)
 		if(rc<0)
 			printf("send failed %s\n",strerror(errno) );
 		else
-			printf("socket is disconnect \n");
+			printf("socket is disconnect for send \n");
 	}
 	else
 	{
@@ -202,10 +228,12 @@ int send_work(const char *hostname,int port,const char *filename)
 //接受
 int recv_work(int port)
 {
-	SOCKET listen_st=socket_create(port);//建立server端socket 
+	SOCKET listen_st=socket_create(port);//建立server端socket
+	setnonblocking(listen_st);//设置非阻塞 
 	if(listen_st==0)
 		return 0;
 	SOCKET st=socket_accept(listen_st);
+	//setnonblocking(st);//把客户端链接到的socket设置为非阻塞
 	if(st==0)
 		return 0;
 
@@ -218,7 +246,7 @@ int recv_work(int port)
 		if(rc<0)
 			printf("recv failed %s\n",strerror(errno) );
 		else
-			printf("socket disconnect\n");
+			printf("socket disconnect for recv\n");
 	}else
 	{
 		printf("recving %s\n",buf );
