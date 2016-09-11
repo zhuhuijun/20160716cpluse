@@ -101,7 +101,7 @@ int send_work(const char *hostname,int port,const char *filename)
 		(struct sockaddr *) &addr,sizeof(addr));//传送文件的名称
 	if(rc<=0)
 	{
-		printf("send failed %s\n",strerror(errno) );
+		printf("send failed1 %s\n",strerror(errno) );
 	}
 	else//发送成功
 	{
