@@ -1,9 +1,11 @@
 #include "dialog.h"
 #include "ui_dialog.h"
 #include <QGridLayout>
+#include <QDateTime>
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent)
 {
+    timer1=new QTimer(this);
    btn1=new QPushButton(this);
    label=new QLabel(this);
    label->setText("结果");
@@ -16,6 +18,7 @@ Dialog::Dialog(QWidget *parent) :
    layout->addWidget(btn1,1,0);
    layout->addWidget(label,1,1);
    connect(btn1,SIGNAL(clicked()),this,SLOT(add()));
+   connect(timer1,SIGNAL(timeout()),this,SLOT(clicktimer()));//将超时事件和函数链接
 }
 
 Dialog::~Dialog()
@@ -29,4 +32,12 @@ void Dialog::add()
     int a=s1.toInt();
     int b=s2.toInt();
     label->setText(QString::number(a+b));
+    //启动定时器
+    timer1->start(1000);
+}
+
+void Dialog::clicktimer()
+{
+    QDateTime *time=new QDateTime(QDateTime::currentDateTime());
+    setWindowTitle(time->date().toString());
 }

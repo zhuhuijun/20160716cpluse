@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
+#include <QTimer>
 namespace Ui {
 class Dialog;
 }
@@ -22,8 +23,10 @@ private:
     QPushButton *btn1;
     QLineEdit *edit1,*edit2;
     QLabel *label;
+    QTimer *timer1;
 private slots:
     void add();
+    void clicktimer();
 };
 
 #endif // DIALOG_H
