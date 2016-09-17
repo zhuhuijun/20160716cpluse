@@ -17,7 +17,7 @@ Widget::Widget(QWidget *parent)
     label1->setFont(font);
     btn1=new QPushButton;
     btn1->setText(tr("开始"));
-    btn1->setBaseSize(200,300);
+    
     QVBoxLayout *layout1=new QVBoxLayout(this);
     layout1->addWidget(label1,0,Qt::AlignHCenter);
     layout1->addWidget(btn1);
