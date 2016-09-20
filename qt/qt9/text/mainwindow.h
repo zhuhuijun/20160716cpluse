@@ -22,7 +22,16 @@ private:
     QAction *openFileAction,*newFileAction,*saveFileAction,*exitFileAction,*copyFileAction,*cutFileAction,
     *parseFileAction;
     void closeEvent(QCloseEvent *event);
-
+    void createActions();
+    void createmenu();
+private slots:
+    void openfile();
+    void newfile();
+    void savefile();
+    void exitfile();
+    void copyfile();
+    void cutfile();
+    void parsefile();
 };
 
 #endif // MAINWINDOW_H

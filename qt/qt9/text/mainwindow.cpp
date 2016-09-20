@@ -6,15 +6,31 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(tr("记事本"));
     text=new QTextEdit;
     this->setCentralWidget(text);
-        filemenu=this->menuBar()->addMenu(tr("文件"));
-    openFileAction = new QAction(tr("打开"),this);
-    openFileAction->setShortcut(tr("Ctrl+O"));
-    filemenu->addAction(openFileAction);
+    text->setFontPointSize(15);
+    createActions();
+    createmenu();
 }
 
 MainWindow::~MainWindow()
 {
 
+
+}
+void MainWindow::createActions()
+{
+    openFileAction = new QAction(tr("打开"),this);
+    openFileAction->setShortcut(tr("Ctrl+O"));
+    connect(openFileAction,SIGNAL(triggered()),this,SLOT(openfile()));
+
+    newFileAction = new QAction(tr("新建"),this);
+    newFileAction->setShortcut(tr("Ctrl+N"));
+    connect(newFileAction,SIGNAL(triggered()),this,SLOT(newfile()));
+}
+void MainWindow::createmenu()
+{
+    filemenu=this->menuBar()->addMenu(tr("文件"));
+    filemenu->addAction(openFileAction);
+    filemenu->addAction(newFileAction);
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -29,3 +45,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 
 }
+void MainWindow::newfile(){}
+void MainWindow::openfile(){}
+void MainWindow::savefile(){}
+void MainWindow::exitfile(){}
+void MainWindow::copyfile(){}
+void MainWindow::cutfile(){}
+void MainWindow::parsefile(){}
