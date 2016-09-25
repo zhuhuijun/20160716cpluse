@@ -19,8 +19,10 @@ private:
     QTextEdit *text;
     QMenu *filemenu;
     QMenu *editmenu;
+    QMenu *helpmenu;
     QAction *openFileAction,*newFileAction,*saveFileAction,*exitFileAction,*copyFileAction,*cutFileAction,
     *parseFileAction;
+    QAction *helpAction;
     void closeEvent(QCloseEvent *event);
     void createActions();
     void createmenu();
@@ -32,6 +34,7 @@ private slots:
     void copyfile();
     void cutfile();
     void parsefile();
+    void helpabout();
 };
 
 #endif // MAINWINDOW_H
