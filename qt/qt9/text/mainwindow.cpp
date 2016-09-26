@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -84,13 +87,53 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 
 }
-void MainWindow::newfile(){}
-void MainWindow::openfile(){}
-void MainWindow::savefile(){}
-void MainWindow::exitfile(){}
-void MainWindow::copyfile(){}
-void MainWindow::cutfile(){}
-void MainWindow::parsefile(){}
+void MainWindow::newfile(){
+    text->clear();
+}
+void MainWindow::openfile(){
+    QString filename=QFileDialog::getOpenFileName(this,tr("打开文件"));
+    if(filename.isEmpty())
+        return;
+    QFile data(filename);
+    if(data.open(QFile::ReadOnly))
+    {
+        text->clear();//清空文本
+        QTextStream  stream(&data);
+        while(!stream.atEnd())
+        {
+            text->append(stream.readLine());
+        }
+        data.close();
+    }else{
+        QMessageBox::critical(this,tr("错误"),data.errorString());
+    }
+}
+void MainWindow::savefile(){
+    QString filename=QFileDialog::getSaveFileName(this,tr("保存文件"));
+    if(filename.isEmpty())
+        return;
+    QFile data(filename);
+    if(data.open(QFile::WriteOnly|QFile::Truncate)){
+        QTextStream stream(&data);
+        stream<<text->toPlainText();//将text转换为QString写入文件
+        data.close();
+    }else{
+        QMessageBox::critical(this,tr("错误"),data.errorString());
+
+    }
+}
+void MainWindow::exitfile(){
+    close();//不要用exit(0);
+}
+void MainWindow::copyfile(){
+    text->copy();
+}
+void MainWindow::cutfile(){
+    text->cut();
+}
+void MainWindow::parsefile(){
+    text->paste();
+}
 void MainWindow::helpabout(){
     QMessageBox::about(this,"关于","这是我的第一个QT程序实例!");
 }
