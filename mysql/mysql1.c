@@ -26,9 +26,11 @@ int main(int arg, char *args[])
 	connection=mysql_real_connect(&mysql,"localhost","dbuser1","dbuser1","db1",0,0,0);
 	if(connection==NULL)
 	{
-		printf("connect error\n");
+		printf(mysql_error(&mysql));
 		return -1;
 	}
+	//关闭mysql
+	mysql_close(connection);
 	puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
 	return EXIT_SUCCESS;
 }
