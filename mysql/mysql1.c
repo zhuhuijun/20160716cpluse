@@ -1,5 +1,4 @@
 /*
-/*
  ============================================================================
  Name        : mysql1.c
  Author      : zhuhj
@@ -34,11 +33,14 @@ int main(int arg, char *args[])
 	{
 		printf("set character error\n");
 	}	
+	char SQL[BUFSIZE];
+	memset(SQL,0,sizeof(SQL));
+	sprintf(SQL,"%s","请输入要干掉的名字>:");
+	write(STDOUT_FILENO,SQL,strlen(SQL));
 	char name[BUFSIZE];
 	memset(name,0,sizeof(name));
 	read(STDIN_FILENO,name,sizeof(name));
 	name[strlen(name)-1]=0;//最后的换行去掉
-	char SQL[BUFSIZE];
 	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"delete from table1 where name='%s';",name);
 
