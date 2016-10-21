@@ -18,30 +18,38 @@
 
 #define BUFSIZE 1024
  MYSQL mysql,*connection;
- void deletename(char *SQL){
- 	memset(SQL,0,BUFSIZE);
+ void deletename(){
+ 	char SQL[BUFSIZE];
+ 	memset(SQL,0,sizeof(SQL));
  	sprintf(SQL,"%s","请输入要干掉的名字>:");
- 	write(STDOUT_FILENO,SQL,BUFSIZE);
+ 	write(STDOUT_FILENO,SQL,strlen(SQL));
  	char name[BUFSIZE];
  	memset(name,0,sizeof(name));
  	read(STDIN_FILENO,name,sizeof(name));
 	name[strlen(name)-1]=0;//最后的换行去掉
-	memset(SQL,0,BUFSIZE);
+	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"delete from table1 where name='%s';",name);
+
+	int ret=mysql_query(connection,SQL);
+	if(ret!=0)
+	{
+		printf("query error,%s\n",mysql_error(&mysql) );
+	}
 }
-void inseertname(char *SQL){
-	memset(SQL,0,BUFSIZE);
+void inseertname(){
+	char SQL[BUFSIZE];
+	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"%s","请输入名字>:");
-	write(STDOUT_FILENO,SQL,BUFSIZE);
+	write(STDOUT_FILENO,SQL,strlen(SQL));
 	char name[BUFSIZE];
 	memset(name,0,sizeof(name));
 	read(STDIN_FILENO,name,sizeof(name));
 	name[strlen(name)-1]=0;//最后的换行去掉
 
 
-	memset(SQL,0,BUFSIZE);
+	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"%s","请输入性别>:");
-	write(STDOUT_FILENO,SQL,BUFSIZE);
+	write(STDOUT_FILENO,SQL,strlen(SQL));
 	char sex[BUFSIZE];
 	memset(sex,0,sizeof(sex));
 	read(STDIN_FILENO,sex,sizeof(sex));
@@ -49,9 +57,9 @@ void inseertname(char *SQL){
 
 
 
-	memset(SQL,0,BUFSIZE);
+	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"%s","请输入年龄>:");
-	write(STDOUT_FILENO,SQL,BUFSIZE);
+	write(STDOUT_FILENO,SQL,strlen(SQL));
 	char age[BUFSIZE];
 	memset(age,0,sizeof(age));
 	read(STDIN_FILENO,age,sizeof(age));
@@ -59,9 +67,9 @@ void inseertname(char *SQL){
 
 
 
-	memset(SQL,0,BUFSIZE);
+	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"%s","请输入班级>:");
-	write(STDOUT_FILENO,SQL,BUFSIZE);
+	write(STDOUT_FILENO,SQL,strlen(SQL));
 	char clazz[BUFSIZE];
 	memset(clazz,0,sizeof(clazz));
 	read(STDIN_FILENO,clazz,sizeof(clazz));
@@ -69,10 +77,15 @@ void inseertname(char *SQL){
 
 	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"insert into table1 value('%s','%s',%s,'%s');",name,sex,age,clazz);
+
+	int ret=mysql_query(connection,SQL);
+	if(ret!=0)
+	{
+		printf("insert error,%s\n",mysql_error(&mysql) );
+	}
 }
 /*查询方法*/
-void selectname(const char *SQL){
-	/*
+void selectname(){
 	char SQL[BUFSIZE];
 	memset(SQL,0,sizeof(SQL));
 	sprintf(SQL,"%s","请输入要查询的名字>:");
@@ -87,7 +100,7 @@ void selectname(const char *SQL){
 	}else{
 		sprintf(SQL,"select * from table1 where name ='%s';",name);
 	}
-	*/
+
 	if(mysql_query(connection,SQL) !=0){
 		printf("query error : %s\n",mysql_error(&mysql) );
 	}
@@ -173,25 +186,17 @@ void selectname(const char *SQL){
 	write(STDOUT_FILENO,buf,strlen(buf));
 	memset(buf,0,sizeof(buf));
 	read(STDIN_FILENO,buf,sizeof(buf));
-
+	if(strncmp(buf,"1",1)==0){
+		inseertname();
+	}
+	if(strncmp(buf,"2",1)==0){
+		deletename();
+	}
+	if(strncmp(buf,"3",1)==0){
+		deletename();
+	}
 	if(strncmp(buf,"4",1)==0){
-		memset(buf,0,sizeof(buf));
-		strcpy(buf,"请输入查询语句:\n");
-		write(STDOUT_FILENO,buf,strlen(buf));
-		memset(buf,0,sizeof(buf));
-		read(STDIN_FILENO,buf,sizeof(buf));
-		selectname(buf);
-	}else{
-		if(strncmp(buf,"1",1)==0){
-			inseertname(buf);
-		}
-		if(strncmp(buf,"2",1)==0){
-			deletename(buf);
-		}
-		if(strncmp(buf,"3",1)==0){
-			deletename(buf);
-		}
-		mysql_query(connection,buf);
+		selectname();
 	}
 	//关闭mysql
 	mysql_close(connection);

@@ -71,10 +71,9 @@ void inseertname(char *SQL){
 	sprintf(SQL,"insert into table1 value('%s','%s',%s,'%s');",name,sex,age,clazz);
 }
 /*查询方法*/
-void selectname(const char *SQL){
-	/*
+void selectname(){
 	char SQL[BUFSIZE];
-	memset(SQL,0,sizeof(SQL));
+	memset(SQL,0,BUFSIZE);
 	sprintf(SQL,"%s","请输入要查询的名字>:");
 	write(STDOUT_FILENO,SQL,strlen(SQL));
 	char name[BUFSIZE];
@@ -87,48 +86,25 @@ void selectname(const char *SQL){
 	}else{
 		sprintf(SQL,"select * from table1 where name ='%s';",name);
 	}
-	*/
+
 	if(mysql_query(connection,SQL) !=0){
 		printf("query error : %s\n",mysql_error(&mysql) );
 	}
 	MYSQL_RES *result=mysql_store_result(connection);//得到的结果集
-	//要知道数据集返回有多少列才能够使用select语句
-	MYSQL_FIELD *field;
-	int iFieldCount=0;
-	while(1)
-	{
-		field=mysql_fetch_field(result);
-		if(field==NULL)
-			break;
-		printf("%s\t", field->name);
-		iFieldCount++;
-	}
-	printf("\n");
-
 	MYSQL_ROW row;
-	/*while(1){
+	while(1){
 		row = mysql_fetch_row(result);
 		if(row==NULL)
 			break;
 		printf("name=%s,sex=%s,age=%s\n",(const char *)row[0],(const char *)row[1],(const char *)row[2] );
-	}*/
-		while(1){
-			row = mysql_fetch_row(result);
-			if(row==NULL)
-				break;
-			int i=0;
-			for(;i<iFieldCount;i++){
-				printf("%s\t",(const char *)row[i] );
-			}
-			printf("\n");
-		}
-		mysql_free_result(result);
 	}
+	mysql_free_result(result);
+}
 //主函数
-	int main(int arg, char *args[])
-	{
-		if(arg<2)
-			return -1;
+int main(int arg, char *args[])
+{
+	if(arg<2)
+		return -1;
 
 	struct termios term;//定义一个termios结构
 	if(tcgetattr(STDIN_FILENO,&term)==-1)
@@ -167,20 +143,14 @@ void selectname(const char *SQL){
 	{
 		printf("set character error\n");
 	}	
-	char buf[1024];
+	char buf[BUFSIZE];
 	memset(buf,0,sizeof(buf));
 	strcpy(buf,"请选择\n1:插入\n2:删除\n3:修改\n4:查询\n");
 	write(STDOUT_FILENO,buf,strlen(buf));
 	memset(buf,0,sizeof(buf));
 	read(STDIN_FILENO,buf,sizeof(buf));
-
 	if(strncmp(buf,"4",1)==0){
-		memset(buf,0,sizeof(buf));
-		strcpy(buf,"请输入查询语句:\n");
-		write(STDOUT_FILENO,buf,strlen(buf));
-		memset(buf,0,sizeof(buf));
-		read(STDIN_FILENO,buf,sizeof(buf));
-		selectname(buf);
+		selectname();
 	}else{
 		if(strncmp(buf,"1",1)==0){
 			inseertname(buf);
@@ -193,6 +163,7 @@ void selectname(const char *SQL){
 		}
 		mysql_query(connection,buf);
 	}
+
 	//关闭mysql
 	mysql_close(connection);
 	puts("!!!Hello World!!!"); 
