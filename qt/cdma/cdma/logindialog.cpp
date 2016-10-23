@@ -1,10 +1,12 @@
 #include "logindialog.h"
 #include <QGridLayout>
 #include <QPalette>
-
+#include <QMessageBox>
 loginDialog::loginDialog(QWidget *parent) :
     QDialog(parent)
 {
+
+    islogin=false;
     label0=new QLabel;
     label0->setText(tr("用户名:"));
 
@@ -67,5 +69,22 @@ loginDialog::loginDialog(QWidget *parent) :
     palette.setBrush(QPalette::Background,QBrush(QPixmap("2.jpg")));
     setPalette(palette);
 
+    connect(loginbtn,SIGNAL(clicked()),this,SLOT(loginbtnclick()));
+    connect(logoutbtn,SIGNAL(clicked()),this,SLOT(cancelbtnclick()));
+}
 
+void loginDialog::loginbtnclick()
+{
+    this->userid=lineEditUserId->text();
+    this->passwd=lineEditPwd->text();
+    this->dbname=lineEditdbname->text();
+    this->hostip=lineEditHostIp->text();
+    this->islogin=true;
+    close();
+}
+
+void loginDialog::cancelbtnclick()
+{
+    islogin=false;
+    close();
 }

@@ -17,6 +17,7 @@ public:
     ~MainWindow();
 
 private:
+    void showsub();
     void createMenus();
     void createActions();
     void closeEvent(QCloseEvent *event);
@@ -29,13 +30,37 @@ private:
     QAction *logoutAction;
     QAction *exitAction;
 
+
+    QAction *scriptAction;
+
+    QAction *cascadeAction;
+    QAction *tileAction;
+
+    QAction *helpAction;
+    QAction *aboutActiion;
+
     QMdiArea *mdiArea;
 private slots:
     void on_login();
     void on_logout();
     //alt+回车键
     void on_exit();
+    void on_script();
+
+    void cascadeWindow();
+    void tilWindow();
+
+    void on_help();
+    void on_about();
 };
+
+
+
+
+
+
+
+
 
 
 

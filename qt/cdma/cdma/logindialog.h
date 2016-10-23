@@ -20,8 +20,17 @@ private:
     QPushButton *loginbtn,*logoutbtn;
 signals:
 
-public slots:
-
+private slots:
+   void loginbtnclick();
+   void cancelbtnclick();
+public:
+   QString userid;
+   QString passwd;
+   QString dbname;
+   QString hostip;
+   bool islogin;
 };
+
+
 
 #endif // LOGINDIALOG_H
