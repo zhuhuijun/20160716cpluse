@@ -7,7 +7,7 @@
 #include <QAction> //行为
 #include <QCloseEvent>
 #include <QMdiArea>
-
+#include "yourmysql.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -17,9 +17,11 @@ public:
     ~MainWindow();
 
 private:
+    yourmysql db;
     void showsub();
     void createMenus();
     void createActions();
+    void showview();
     void closeEvent(QCloseEvent *event);
     QMenu *adminMenu;
     QMenu *dataMenu;
@@ -53,6 +55,7 @@ private slots:
     void on_help();
     void on_about();
 };
+
 
 
 

@@ -1,0 +1,5 @@
+QMessageBox box(QMessageBox::Warning,"标题","弹出框按钮更改为中文！");
+    box.setStandardButtons (QMessageBox::Ok|QMessageBox::Cancel);
+    box.setButtonText (QMessageBox::Ok,QString("确 定"));
+    box.setButtonText (QMessageBox::Cancel,QString("取 消"));
+    box.exec ();
