@@ -136,14 +136,37 @@ void MainWindow::on_script()
     }
     */
     if(sc.isoklogin){
-        int ret=db.sql_exec(sc.SQL.toStdString().data());
-        if(ret==-1){
-            QMessageBox::information(this,"失败",db.geterror());
-        }else{
-            QMessageBox::information(this,"成功","恭喜你,操作执行成功!");
-        }
+        scriptMsg(sc.SQL.toStdString().data());
     }
 }
+
+void MainWindow::scriptMsg(const char *SQL)
+{
+    int ret=0;
+    if((strncmp(SQL,"SELECT",6)==0)||(strncmp(SQL,"select",6)==0))
+    {
+        QStandardItemModel *model=NULL;
+        ret=db.sql_open(SQL,&model);
+        QTableView  *view=new QTableView;
+        view->setAttribute(Qt::WA_DeleteOnClose);
+        mdiArea->addSubWindow(view);
+        view->setStyleSheet("border-image:url(3.jpg);");
+        view->setModel(model);
+        view->show();
+        mdiArea->activeSubWindow()->resize(width()-100,height()-100);
+    }else
+    {
+        ret=db.sql_exec(SQL);
+    }
+    if(ret==-1)
+    {
+        QMessageBox::information(this,"失败",db.geterror());
+    }else{
+        QMessageBox::information(this,"成功","恭喜你,操作执行成功!");
+    }
+}
+
+
 void MainWindow::showsub()
 {
     QWidget *w1=new QWidget;

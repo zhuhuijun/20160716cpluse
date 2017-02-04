@@ -47,6 +47,7 @@ private slots:
     void on_logout();
     //alt+回车键
     void on_exit();
+    void scriptMsg(const char *SQL);
     void on_script();
 
     void cascadeWindow();

@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <D:/yourmysql/include/mysql.h>
 //#include <mysql/mysql.h>
+#include <QStandardItemModel>
 class yourmysql
 {
 public:
@@ -14,7 +15,7 @@ public:
     //断开连接
     void sql_disconnect();
     int sql_exec(const char *SQL);
-    int sql_open(const char *SQL);
+    int sql_open(const char *SQL,QStandardItemModel **p);
 private:
     MYSQL *connection;
     MYSQL mysql;
